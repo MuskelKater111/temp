@@ -6,7 +6,7 @@
 /*   By: tpulaski <tpulaski@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/09/27 09:22:47 by tpulaski          #+#    #+#             */
-/*   Updated: 2020/09/29 20:28:43 by tpulaski         ###   ########.fr       */
+/*   Updated: 2020/09/29 23:19:34 by tpulaski         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -74,10 +74,6 @@ void	memcopy(char *src, char *dest, int bytenum)
 	i = 0;
 	while (i < bytenum)
 	{
-
-printf("i = %d, src[i] = %c\n", i, *(src + i));
-
-
 		*(dest + i) = *(src + i);
 		i++;
 	}

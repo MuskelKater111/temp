@@ -10,6 +10,7 @@
 
 
 int		map_read(char *file_name)
+    // Status: OK.
 {
    // чтение из файла (выделение памяти, присвоение ссылки гл. переменной карты, присвоение размеров карты,
    // заполнениие полей empty, obstacle, fill)
@@ -29,28 +30,20 @@ int		map_read(char *file_name)
 	buff_tmp = (char *)malloc(10000);                       // ПОДУМАТЬ!!!
     file_map_format_str_read(&map, fd, buff_tmp);
     file_map_1st_str_read(&map, fd, buff_tmp);
-
     map.data = (char *)malloc(map.size_x * map.size_y);
-
-getchar();
-
     memcopy(buff_tmp, map.data, map.size_x);
     free(buff_tmp);
-
-printf("map.size_x = %d, map.size_y = %d\n", map.size_x, map.size_y);
     if (map.data == NULL)
     {
         write(2, "Insufficient memory\n", 20);
         return (-1);
     }
-
     buff_tmp = (char *)malloc(map.size_x);
     if (buff_tmp == NULL)
     {
         write(2, "Insufficient memory\n", 20);
         return (-1);
     }
-
     y_curr = 1;
     while (y_curr <= map.size_y - 1)
     {
@@ -61,33 +54,8 @@ printf("map.size_x = %d, map.size_y = %d\n", map.size_x, map.size_y);
     return (0);
 }
 
-
-/*
-	char	*c_temp_map;
-
-	else
-	{
-		fd = open(file_name, O_RDONLY);
-		if (fd < 0)
-		{
-			write(2, "map error\n", 10);
-			return (-1); // file can not be open
-		}
-	}
-
-	c_temp_map = (char *)malloc(65536);
-	if (c_temp_map == NULL)
-	{
-		write(2, "Insufficient memory\n", 20);
-		return (-2);
-	}
-
-*/
-
-
-
 int     map_check_format_str(t_map *map_curr, char *str_curr)
-    // Author: fmira;   Status: DEV.
+    // Author: fmira;   Status: OK.
 {
     int i;
     int n;
@@ -128,6 +96,7 @@ int     map_check_format_str(t_map *map_curr, char *str_curr)
 } /*** int map_check_format_str(t_map *map_curr, char *str_curr) ***/
 
 int		map_check_1st_string(t_map *map_curr, char *str_curr)
+    //  Status: OK.
 {
 	int		i;
 
@@ -146,6 +115,7 @@ int		map_check_1st_string(t_map *map_curr, char *str_curr)
 } /*** int map_check_string(t_map *map_curr, char *str_curr) ***/
 
 int		map_check_next_string(t_map *map_curr, char *str_curr)
+    //  Status: OK.
 {
 	int		i;
 
@@ -164,39 +134,109 @@ int		map_check_next_string(t_map *map_curr, char *str_curr)
 
 
 /*
-
 char	map_get_val(int x, int y);
-	// получение значения пиксела карты по указанным координатам
-	// map.data(y * map.size_x + x)
+	// БЕЗ ФУНКЦИИ: получение значения пиксела карты по указанным координатам
+	// *(map.data + y * map.size_x + x)
+*/
 
-int		map_scan_x(int x, int y, char val);
+int		map_scan_x(int x, int y, int max_x)
 	// ищет вправо от точки икс-игрек значение val и возвращает смещение до найденного пиксела или смещение до края карты, если ничего
 	// не нашлось, т. е. показывает сколько свободных пикселов есть вправо.
+{
+    int xp;
 
-int		map_scan_y(int x, int y, char val);
+    xp = 0;
+    while ((*(map.data + y * map.size_x + (x + xp)) != map.obstacle)   &&   (xp < max_x)  && (x + xp < map.size_x - 1) )
+        xp++;
+    return (xp);
+}
+
+int		map_scan_y(int x, int y, int max_y)
 	// ищет вниз от точки икс-игрек значение val и возвращает смещение до найденного пиксела или смещение до края карты, если ничего
 	// не нашлось, т. е. показывает сколько свободных пикселов есть вниз.
+{
+    int yp;
 
-t_point	map_max_rect_find(int x, int y);
-	// ищет макс. допустимый пустой прямоугольник для указанной точки левого-вернегно угла
+    yp = 0;
+    while ((*(map.data + (y + yp) * map.size_x + x) != map.obstacle)   &&   (yp < max_y)  && (y + yp < map.size_y - 1) )
+        yp++;
+    return (yp);
+}
 
-int		map_find(char *file_name_curr);
-	// обрабатывает текущую переданную карту на предмет поиска максимального свободного прямоугольника,
+
+int     map_max_square_find(int x, int y)
+	// ищет макс. допустимый пустой квадрат для указанной точки левого-вернегно угла
+{
+    int cp;
+    int x_scan_len;
+    int y_scan_len;
+
+    cp = 0;
+    x_scan_len = map_scan_x(x, y + cp, cp + 1);
+    y_scan_len = 1;
+	while (cp <= map.size_x - 1 && cp <= map.size_y - 1 && x_scan_len > 0 && y_scan_len > 0)
+	{
+        // если от текущей точки можно построить квадрат без камней с заданным приращением коорд., то следующее приращение
+printf("cp=%d, map_scan_x=%d, map_scan_y=%d\n", cp, map_scan_x(x, y + cp, cp + 1), map_scan_y(x + cp, y, cp + 1));
+        if ( (x_scan_len != cp + 1)  &&  (y_scan_len != cp + 1) )
+        {
+                x_scan_len = map_scan_x(x, y + cp, cp + 1);
+                y_scan_len = map_scan_y(x + cp, y, cp + 1);
+                break;
+        }
+        cp++;
+	}
+
+printf("xy=%d%d q=%d;  ", x, y, cp);
+
+    return (cp);
+}
+
+void		map_find(void)
+	// обрабатывает текущую переданную карту на предмет поиска максимального свободного квадрата,
 	// если имя файла с картой - пустая строка, то читаем карту с консоли
 	// по ходу поиска всегда заполнем поля rect_x, rect_y, rect_size_x, rect_size_y.
+{
+	int x;
+	int y;
+    int sq_size;
+    
+    y = 0;
+	while (y <= map.size_y - 1)
+	{
+		x = 0;
+		while  (x <= map.size_x -1)
+		{
+			// printf("map(x,y).val = %d, rx=%d, ry=%d;  ", *(map.data + y * map.size_x + x), map_scan_x(x, y), map_scan_y(x, y));
+            // вызов функции построения максимального квадрата
+			sq_size = map_max_square_find(x, y);
+            if ( sq_size > map.max_square_size)
+            {
+                map.max_square_size = sq_size;
+                map.max_square_x = x;
+                map.max_square_y = y;
+            }
+            x++;	
+		}
 
-int		map_max_rect_plot(t_map *map_curr);
+printf("\n");
+
+		y++;
+	}
+}
+
+
+int		map_max_square_plot(t_map *map_curr);
 	// заполняет символом заполнителя map.fill область на карте
 
 int		map_plot(t_map *map_curr);
 	// выводит в станд. поток вывода карту с отрисованным максимальным прямоугольником
 
-int		is_empty(char sym);
+int		is_empty(char sym)
 	// определяет - является ли символ свободным пикселом
 {
-	if (sym == t_map.empty)
+	if (sym == map.empty)
 		return (0);
 	else
 		return (-1);
 }
-*/

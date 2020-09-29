@@ -6,7 +6,7 @@
 /*   By: tpulaski <tpulaski@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/09/27 10:41:40 by tpulaski          #+#    #+#             */
-/*   Updated: 2020/09/29 19:36:26 by tpulaski         ###   ########.fr       */
+/*   Updated: 2020/09/29 23:19:18 by tpulaski         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,8 +61,6 @@ int		file_map_next_str_read(t_map *map_curr, int fd, char *buff)
 	//	get the t_map pointer, file descriptor fd and read the next map str. with len);
 {
 	int n;
-
-printf("map_curr->size_x = %d\n", map_curr->size_x);
 
 	if (map_curr->size_x > 0)
 	{

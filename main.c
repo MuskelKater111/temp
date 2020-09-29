@@ -6,7 +6,7 @@
 /*   By: tpulaski <tpulaski@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/09/26 08:49:47 by tpulaski          #+#    #+#             */
-/*   Updated: 2020/09/29 20:01:49 by tpulaski         ###   ########.fr       */
+/*   Updated: 2020/09/29 23:26:53 by tpulaski         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 #include "map.h"										// Надо заменить на хедеры  .h (сначала их создать)
 
 #include <stdio.h>	// 4DEBUG
-
+#include <unistd.h>	// 4DEBUG
 
 	
 int		main(int argc, char *argv[])
@@ -30,7 +30,9 @@ int		main(int argc, char *argv[])
 	
 	if (argc == 2)
 		map_read(argv[1]);
+		//map_find();
 
-	
+	map_max_square_find(0, 0);
+
 	return (0);
 } //*** int main(void) ***
