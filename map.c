@@ -11,6 +11,7 @@ int		map_read(int fd)
 {
     char    *buff_tmp;
     int     y_curr;
+    int n;
 
 	buff_tmp = (char *)malloc(10000);
     file_map_format_str_read(&map, fd, buff_tmp);
@@ -35,6 +36,11 @@ int		map_read(int fd)
         file_map_next_str_read(&map, fd, buff_tmp);
         memcopy(buff_tmp, (map.data + map.size_x * y_curr), map.size_x);
         y_curr++;
+    }
+    if (read (fd, buff_tmp, 1) > 0)
+    {
+        write(2, "map err99\n", 10);
+               return (-1);
     }
     free(buff_tmp);
     return (0);

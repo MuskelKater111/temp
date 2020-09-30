@@ -32,7 +32,10 @@ int		main(int argc, char *argv[])
             if (fd == -1)
                 write (2, "map error\n", 10);
         }
-        map_read(fd);
+        if (map_read(fd) < 0)
+        {
+            continue;
+        }
         map_find();
         map_plot();
         write (1, "\n", 1);

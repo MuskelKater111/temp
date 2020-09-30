@@ -55,7 +55,7 @@ int		file_map_1st_str_read(t_map *map_curr, int fd, char *buff)
 int		file_map_next_str_read(t_map *map_curr, int fd, char *buff)
 {
 	int n;
-
+    
 	if (map_curr->size_x > 0)
 	{
 		n=read(fd, buff, map_curr->size_x + 1);
