@@ -18,7 +18,8 @@ CFLAGS	= -Wall -Wextra -Werror
 U_HEAD	= -I $(HEAD)
 
 ${NAME}:
-	gcc -c $(U_HEAD) $(CFLAGS) $(SRCS) && ar rc $(NAME) $(OBJ)
+	gcc -c $(SRCS)
+	gcc $(OBJS) -o $(NAME)
 
 all: $(NAME)
 

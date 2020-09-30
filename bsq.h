@@ -16,7 +16,7 @@
 typedef struct	s_point
 {
 	int		x;
-	int		у;
+	int		y;
 }				t_point;
 
 typedef struct	s_map

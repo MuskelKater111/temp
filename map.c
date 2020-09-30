@@ -27,7 +27,7 @@ int		map_read(char *file_name)
 		fd = 0;
     else
     	fd = open(file_name, O_RDONLY);
-	buff_tmp = (char *)malloc(10000);                       // ПОДУМАТЬ!!!
+	buff_tmp = (char *)malloc(100);                       // ПОДУМАТЬ!!!
     file_map_format_str_read(&map, fd, buff_tmp);
     file_map_1st_str_read(&map, fd, buff_tmp);
     map.data = (char *)malloc(map.size_x * map.size_y);
@@ -173,24 +173,35 @@ int     map_max_square_find(int x, int y)
 
     cp = 0;
     x_scan_len = map_scan_x(x, y + cp, cp + 1);
-    y_scan_len = 1;
-	while (cp <= map.size_x - 1 && cp <= map.size_y - 1 && x_scan_len > 0 && y_scan_len > 0)
+    y_scan_len = map_scan_y(x + cp, y, cp + 1);
+	while (cp <= map.size_x - 1 && cp <= map.size_y - 1 && x_scan_len > 0 && y_scan_len > 0 \
+			&& (x_scan_len == cp + 1)  &&  (y_scan_len == cp + 1))
 	{
         // если от текущей точки можно построить квадрат без камней с заданным приращением коорд., то следующее приращение
-printf("cp=%d, map_scan_x=%d, map_scan_y=%d\n", cp, map_scan_x(x, y + cp, cp + 1), map_scan_y(x + cp, y, cp + 1));
-        if ( (x_scan_len != cp + 1)  &&  (y_scan_len != cp + 1) )
-        {
-                x_scan_len = map_scan_x(x, y + cp, cp + 1);
-                y_scan_len = map_scan_y(x + cp, y, cp + 1);
-                break;
-        }
+printf("cp=%d, x_scan_len <%d> = map_scan_x(x      <%d>, y + cp <%d>, cp + 1 <%d>);\n", cp, x_scan_len, x, (y+cp), (cp+1));
+printf("cp=%d, y_scan_len <%d> = map_scan_y(x + cp <%d>, y      <%d>, cp + 1 <%d>);\n", cp, y_scan_len, (x+cp), y, (cp+1));
+
         cp++;
+        x_scan_len = map_scan_x(x, y + cp, cp + 1);
+				y_scan_len = map_scan_y(x + cp, y, cp + 1);
 	}
 
-printf("xy=%d%d q=%d;  ", x, y, cp);
+printf("\nxy=%d%d q=%d;  \n\n\n", x, y, cp);
 
     return (cp);
 }
+
+
+/*
+4.ox   map_max_square_find(1, 1);
+
+o..ooo
+......
+o....o
+o.o.oo
+
+*/
+
 
 void		map_find(void)
 	// обрабатывает текущую переданную карту на предмет поиска максимального свободного квадрата,

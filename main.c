@@ -30,9 +30,19 @@ int		main(int argc, char *argv[])
 	
 	if (argc == 2)
 		map_read(argv[1]);
-		//map_find();
+		map_find();
 
-	map_max_square_find(0, 0);
+//	map_max_square_find(1, 1);
 
 	return (0);
 } //*** int main(void) ***
+
+/*
+4.ox
+
+o..ooo
+......
+o....o
+o.o.oo
+
+*/
