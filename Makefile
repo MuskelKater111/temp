@@ -12,7 +12,7 @@
 
 NAME	= BSQ
 HEAD	= *.h
-SRCS    = main.c map.c map_res.c char_string_op.c file_op.c
+SRCS    = main.c map.c char_string_op.c file_op.c
 OBJS    = *.o
 CFLAGS	= -Wall -Wextra -Werror
 U_HEAD	= -I $(HEAD)

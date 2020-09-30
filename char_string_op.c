@@ -11,7 +11,6 @@
 /* ************************************************************************** */
 
 #include <unistd.h>
-#include <stdio.h>						// 4DEBUG
 
 int		ft_strcmp(char *s1, char *s2)
 {
@@ -67,7 +66,6 @@ int		ft_atoi(char *str)
 }
 
 void	memcopy(char *src, char *dest, int bytenum)
-	// copy of specified byte number
 {
 	int		i;
 

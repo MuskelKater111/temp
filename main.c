@@ -10,24 +10,14 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "bsq.h"										// Объявления глобальных вещей
-#include "map.h"										// Надо заменить на хедеры  .h (сначала их создать)
+#include "bsq.h"
+#include "map.h"
 #include <fcntl.h>
-
-#include <stdio.h>	// 4DEBUG
-#include <unistd.h>	// 4DEBUG
+#include <unistd.h>
 
 	
 int		main(int argc, char *argv[])
 {
-	// блок чтения агументов со списком карт, переданных на обработку.
-	// тут вызываем map_find(char *file_name_curr); по всему списку аргументов
-/*	while (по всем аргументам)
-	{
-		map_find(char *file_name_curr);
-		map_plot(t_map *map_curr);
-	}
-*/
     int fd;
     int i;
     
@@ -48,11 +38,5 @@ int		main(int argc, char *argv[])
         write (1, "\n", 1);
         i++;
     }
-    
-
-    
-
-//	map_max_square_find(1, 1);
-
 	return (0);
-} //*** int main(void) ***
+}
