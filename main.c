@@ -12,6 +12,7 @@
 
 #include "bsq.h"										// Объявления глобальных вещей
 #include "map.h"										// Надо заменить на хедеры  .h (сначала их создать)
+#include <fcntl.h>
 
 #include <stdio.h>	// 4DEBUG
 #include <unistd.h>	// 4DEBUG
@@ -27,22 +28,31 @@ int		main(int argc, char *argv[])
 		map_plot(t_map *map_curr);
 	}
 */
-	
-	if (argc == 2)
-		map_read(argv[1]);
-		map_find();
+    int fd;
+    int i;
+    
+    i = 1;
+    while (i < argc)
+    {
+        if (argc == 1)
+            fd = 0;
+        else
+        {
+            fd = open(argv[i], O_RDONLY);
+            if (fd == -1)
+                write (2, "map error\n", 10);
+        }
+        map_read(fd);
+        map_find();
+        map_plot();
+        write (1, "\n", 1);
+        i++;
+    }
+    
+
+    
 
 //	map_max_square_find(1, 1);
 
 	return (0);
 } //*** int main(void) ***
-
-/*
-4.ox
-
-o..ooo
-......
-o....o
-o.o.oo
-
-*/

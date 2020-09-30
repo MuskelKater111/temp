@@ -15,8 +15,9 @@
 
 #include "bsq.h"
 
-int		map_read(char *file_name);
-	// Author: tpulaski; status: under developing
+
+int        map_read(int fd);
+    // Author: tpulaski; status: under developing
 
    // чтение из файла (выделение памяти, присвоение ссылки гл. переменной карты, присвоение размеров карты,
    // заполнениие полей empty, obstacle, fill)
@@ -60,11 +61,9 @@ void	map_find(void);
 	// если имя файла с картой - пустая строка, то читаем карту с консоли
 	// по ходу поиска всегда заполнем поля rect_x, rect_y, rect_size_x, rect_size_y.
 
-int		map_max_square_plot(t_map *map_curr);
+void		map_plot(void);
 	// заполняет символом заполнителя map.fill область на карте
 
-int		map_plot(t_map *map_curr);
-	// выводит в станд. поток вывода карту с отрисованным максимальным прямоугольником
 
 void	test(void);
 #endif

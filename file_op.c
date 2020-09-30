@@ -27,7 +27,11 @@ int		file_map_format_str_read(t_map *map_curr, int fd, char *buff)
 	int n;
 
 	i = 0;
+    
+    printf ("%d\n", fd);
+    
 	n = read(fd, (buff + i), 1);
+    
 	while ((n > 0) && (*(buff + i) != '\n'))
 	{
 		i++;
